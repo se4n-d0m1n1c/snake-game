@@ -35,11 +35,11 @@ UI_ACCENT_COLOR = (70, 130, 180)  # Steel blue
 UI_WARNING_COLOR = (255, 215, 0)  # Gold
 
 # ===== GAME SETTINGS =====
-# Difficulty levels (frames per move - lower is faster)
+# Difficulty levels (frames per move - higher is slower/easier, lower is faster/harder)
 DIFFICULTY_SPEEDS = {
-    "easy": 10,    # Slow
-    "medium": 15,  # Normal
-    "hard": 20,    # Fast
+    "easy": 20,    # Slow - easier (20 frames between moves)
+    "medium": 15,  # Normal (15 frames between moves)
+    "hard": 10,    # Fast - harder (10 frames between moves)
 }
 
 INITIAL_SPEED = DIFFICULTY_SPEEDS["medium"]
