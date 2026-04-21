@@ -82,13 +82,19 @@ class UI:
         self.draw_text(f"Score: {score}", "normal", UI_TEXT_COLOR, 20, 15)
         self.draw_text(f"High Score: {high_score}", "normal", UI_ACCENT_COLOR, 20, 45)
         
-        # Draw difficulty
+        # Draw difficulty - positioned from right edge
         difficulty_text = f"Difficulty: {difficulty.capitalize()}"
-        self.draw_text(difficulty_text, "normal", UI_TEXT_COLOR, SCREEN_WIDTH - 200, 15)
+        difficulty_font = self.fonts.get("normal", self.fonts["normal"])
+        difficulty_width = difficulty_font.size(difficulty_text)[0]
+        self.draw_text(difficulty_text, "normal", UI_TEXT_COLOR, 
+                      SCREEN_WIDTH - difficulty_width - 20, 15)
         
-        # Draw controls hint
+        # Draw controls hint - positioned from right edge
         controls_text = "P: Pause | R: Restart | ESC: Quit"
-        self.draw_text(controls_text, "small", UI_TEXT_COLOR, SCREEN_WIDTH - 200, 45)
+        controls_font = self.fonts.get("small", self.fonts["normal"])
+        controls_width = controls_font.size(controls_text)[0]
+        self.draw_text(controls_text, "small", UI_TEXT_COLOR,
+                      SCREEN_WIDTH - controls_width - 20, 45)
     
     def draw_pause_screen(self) -> None:
         """Draw the pause screen overlay."""
