@@ -80,10 +80,10 @@ class Food:
         Args:
             surface: PyGame surface to draw on.
         """
-        # Calculate pixel coordinates
+        # Calculate pixel coordinates (adjust for game area offset)
         x, y = self.position
         center_x = x * GRID_SIZE + GRID_SIZE // 2
-        center_y = y * GRID_SIZE + GRID_SIZE // 2
+        center_y = y * GRID_SIZE + GRID_SIZE // 2 + GAME_AREA_TOP
         
         # Calculate pulsing glow effect
         glow_intensity = 0.5 + 0.5 * abs(pygame.math.Vector2(1, 0).rotate(self.glow_phase * 50).x)

@@ -146,14 +146,18 @@ class UI:
                       SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 120, center=True)
     
     def draw_grid(self) -> None:
-        """Draw the game grid."""
-        # Draw vertical lines
+        """Draw the game grid (only in the game area below UI)."""
+        # Draw vertical lines (full height of game area)
         for x in range(0, SCREEN_WIDTH, GRID_SIZE):
-            pygame.draw.line(self.screen, GRID_COLOR, (x, 0), (x, SCREEN_HEIGHT), 1)
+            pygame.draw.line(self.screen, GRID_COLOR, 
+                           (x, GAME_AREA_TOP), 
+                           (x, SCREEN_HEIGHT), 1)
         
-        # Draw horizontal lines
-        for y in range(0, SCREEN_HEIGHT, GRID_SIZE):
-            pygame.draw.line(self.screen, GRID_COLOR, (0, y), (SCREEN_WIDTH, y), 1)
+        # Draw horizontal lines (only in game area)
+        for y in range(GAME_AREA_TOP, SCREEN_HEIGHT, GRID_SIZE):
+            pygame.draw.line(self.screen, GRID_COLOR, 
+                           (0, y), 
+                           (SCREEN_WIDTH, y), 1)
     
     def draw_difficulty_change(self, difficulty: str) -> None:
         """

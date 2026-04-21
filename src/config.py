@@ -11,8 +11,11 @@ import pygame
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 GRID_SIZE = 20
+UI_HEIGHT = 60  # Height of the UI bar at the top
+GAME_AREA_TOP = UI_HEIGHT  # Where the game grid starts
+GAME_AREA_HEIGHT = SCREEN_HEIGHT - UI_HEIGHT  # Height of playable area
 GRID_WIDTH = SCREEN_WIDTH // GRID_SIZE
-GRID_HEIGHT = SCREEN_HEIGHT // GRID_SIZE
+GRID_HEIGHT = GAME_AREA_HEIGHT // GRID_SIZE  # Grid height based on game area, not full screen
 
 # ===== COLORS (RGB) =====
 # Background colors

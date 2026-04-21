@@ -4,10 +4,10 @@ Test module for Food class.
 
 import sys
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from food import Food
-from snake import Snake
+from src.food import Food
+from src.snake import Snake
 
 
 def test_food_initialization():

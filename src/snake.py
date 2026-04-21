@@ -110,10 +110,10 @@ class Snake:
             surface: PyGame surface to draw on.
         """
         for i, (x, y) in enumerate(self.positions):
-            # Calculate pixel coordinates
+            # Calculate pixel coordinates (adjust for game area offset)
             rect = pygame.Rect(
                 x * GRID_SIZE, 
-                y * GRID_SIZE, 
+                y * GRID_SIZE + GAME_AREA_TOP, 
                 GRID_SIZE, 
                 GRID_SIZE
             )

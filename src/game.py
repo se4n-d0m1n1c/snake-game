@@ -183,8 +183,10 @@ class SnakeGame:
     
     def draw(self) -> None:
         """Draw the game."""
-        # Clear screen
-        self.screen.fill(BACKGROUND_COLOR)
+        # Clear screen with different colors for UI and game areas
+        self.screen.fill(UI_BACKGROUND[:3])  # UI area background (solid color)
+        game_area_bg = pygame.Rect(0, GAME_AREA_TOP, SCREEN_WIDTH, GAME_AREA_HEIGHT)
+        pygame.draw.rect(self.screen, BACKGROUND_COLOR, game_area_bg)
         
         # Draw grid
         self.ui.draw_grid()
@@ -193,7 +195,7 @@ class SnakeGame:
         self.snake.draw(self.screen)
         self.food.draw(self.screen)
         
-        # Draw UI elements
+        # Draw UI elements (semi-transparent overlay)
         self.ui.draw_score(self.score, self.high_score, self.difficulty)
         
         # Draw difficulty notification if active
