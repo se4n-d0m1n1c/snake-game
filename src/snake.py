@@ -7,7 +7,7 @@ growth, collision detection, and rendering.
 
 import pygame
 from typing import List, Tuple
-from config import *
+from .config import *
 
 
 class Snake:

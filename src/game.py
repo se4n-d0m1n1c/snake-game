@@ -9,11 +9,11 @@ import pygame
 import sys
 import os
 from typing import Optional
-from snake import Snake
-from food import Food
-from ui import UI
-from audio import AudioManager
-from config import *
+from .snake import Snake
+from .food import Food
+from .ui import UI
+from .audio import AudioManager
+from .config import *
 
 
 class SnakeGame:

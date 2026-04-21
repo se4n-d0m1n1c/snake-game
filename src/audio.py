@@ -8,7 +8,7 @@ Includes fallback for systems without audio support.
 import pygame
 import os
 from typing import Optional
-from config import *
+from .config import *
 
 
 class AudioManager:

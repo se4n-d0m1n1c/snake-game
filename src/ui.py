@@ -7,7 +7,7 @@ game over screens, pause screens, and text rendering.
 
 import pygame
 from typing import Optional
-from config import *
+from .config import *
 
 
 class UI:

@@ -8,7 +8,7 @@ collision detection, and rendering.
 import pygame
 import random
 from typing import Tuple, List
-from config import *
+from .config import *
 
 
 class Food:
