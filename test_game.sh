@@ -15,7 +15,11 @@ pip3 list | grep -E "(pygame|pytest)" || echo "Installing dependencies..."
 echo ""
 echo "3. Running tests..."
 cd ~/projects/snake-game
-python3 -m pytest tests/ -v
+echo "Running snake tests..."
+python3 tests/test_snake.py
+echo ""
+echo "Running food tests..."
+python3 tests/test_food.py
 
 echo ""
 echo "4. Testing game import..."
