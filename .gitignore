@@ -164,3 +164,4 @@ Thumbs.db
 # Game assets (if you want to ignore generated assets)
 assets/generated/
 *.log
+highscore.txt
