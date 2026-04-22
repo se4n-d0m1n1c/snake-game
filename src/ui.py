@@ -199,12 +199,12 @@ class UI:
         # Draw background
         self.screen.fill(BACKGROUND_COLOR)
         
-        # Draw animated title (centered at top)
-        title_y = self._get_title_y_position()
-        self.draw_text("SNAKE GAME", "title", UI_ACCENT_COLOR,
-                      SCREEN_WIDTH // 2, title_y, center=True)
-        
         if menu_state == "main":
+            # Draw animated title (centered at top)
+            title_y = self._get_title_y_position()
+            self.draw_text("SNAKE GAME", "title", UI_ACCENT_COLOR,
+                          SCREEN_WIDTH // 2, title_y, center=True)
+            
             # Calculate vertical center for main menu content
             content_start_y = SCREEN_HEIGHT // 2 - 100
             
@@ -222,7 +222,7 @@ class UI:
             
         elif menu_state == "difficulty":
             # Calculate vertical center for difficulty selection content
-            content_start_y = SCREEN_HEIGHT // 2 - 150
+            content_start_y = SCREEN_HEIGHT // 2 - 100
             
             # Draw difficulty selection title
             self.draw_text("SELECT DIFFICULTY", "heading", UI_TEXT_COLOR,
@@ -249,7 +249,7 @@ class UI:
                 
                 y_offset += option_spacing
             
-            # Draw instructions at bottom (different text for difficulty screen)
+            # Draw instructions at bottom
             self.draw_text("Press ESC to go back", "small", UI_TEXT_COLOR,
                           SCREEN_WIDTH // 2, SCREEN_HEIGHT - 80, center=True)
     
