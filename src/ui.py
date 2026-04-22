@@ -199,29 +199,34 @@ class UI:
         # Draw background
         self.screen.fill(BACKGROUND_COLOR)
         
-        # Draw animated title
+        # Draw animated title (centered at top)
         title_y = self._get_title_y_position()
         self.draw_text("SNAKE GAME", "title", UI_ACCENT_COLOR,
                       SCREEN_WIDTH // 2, title_y, center=True)
         
-        # Draw high score
-        self.draw_text(f"High Score: {high_score}", "heading", UI_TEXT_COLOR,
-                      SCREEN_WIDTH // 2, title_y + 100, center=True)
-        
         if menu_state == "main":
-            # Draw play button
-            play_y = title_y + 200
-            self.draw_text("PRESS ENTER TO PLAY", "heading", UI_ACCENT_COLOR,
-                          SCREEN_WIDTH // 2, play_y, center=True)
+            # Calculate vertical center for main menu content
+            content_start_y = SCREEN_HEIGHT // 2 - 100
             
-            # Draw instructions
+            # Draw high score (centered)
+            self.draw_text(f"High Score: {high_score}", "heading", UI_TEXT_COLOR,
+                          SCREEN_WIDTH // 2, content_start_y, center=True)
+            
+            # Draw play button (below high score)
+            self.draw_text("PRESS ENTER TO PLAY", "heading", UI_ACCENT_COLOR,
+                          SCREEN_WIDTH // 2, content_start_y + 100, center=True)
+            
+            # Draw instructions at bottom
             self.draw_text("Press ESC to quit", "small", UI_TEXT_COLOR,
                           SCREEN_WIDTH // 2, SCREEN_HEIGHT - 80, center=True)
             
         elif menu_state == "difficulty":
+            # Calculate vertical center for difficulty selection content
+            content_start_y = SCREEN_HEIGHT // 2 - 150
+            
             # Draw difficulty selection title
             self.draw_text("SELECT DIFFICULTY", "heading", UI_TEXT_COLOR,
-                          SCREEN_WIDTH // 2, title_y + 180, center=True)
+                          SCREEN_WIDTH // 2, content_start_y, center=True)
             
             # Draw difficulty options
             difficulties = [
@@ -230,7 +235,7 @@ class UI:
                 ("HARD", "3", "hard")
             ]
             
-            y_offset = title_y + 260
+            y_offset = content_start_y + 80
             option_spacing = 80
             
             for name, key, difficulty in difficulties:
@@ -244,7 +249,7 @@ class UI:
                 
                 y_offset += option_spacing
             
-            # Draw instructions
+            # Draw instructions at bottom (different text for difficulty screen)
             self.draw_text("Press ESC to go back", "small", UI_TEXT_COLOR,
                           SCREEN_WIDTH // 2, SCREEN_HEIGHT - 80, center=True)
     
@@ -255,4 +260,4 @@ class UI:
         # Smooth bobbing animation: sin wave with 2 second period, 10 pixel amplitude
         current_time = time.time()
         bob_offset = int(10 * math.sin(current_time * 3.14))  # Smooth sin wave
-        return 100 + bob_offset  # Center at 100, bob up and down
+        return 80 + bob_offset  # Start at 80, bob up and down
