@@ -43,6 +43,9 @@ class SnakeGame:
         self.move_counter = 0
         self.difficulty_notification_timer = 0
         
+        # Input buffer for direction controls (stores last 2 direction keys)
+        self.input_buffer = []
+        
         # Initialize game objects (but don't start game yet)
         self.snake = None
         self.food = None
@@ -81,6 +84,7 @@ class SnakeGame:
         self.score = 0
         self.state = STATE_PLAYING
         self.move_counter = 0
+        self.input_buffer = []  # Clear input buffer on reset
     
     def start_game(self) -> None:
         """Start the game with selected difficulty."""
@@ -94,6 +98,7 @@ class SnakeGame:
         self.snake = None
         self.food = None
         self.score = 0
+        self.input_buffer = []  # Clear input buffer
         self.audio.stop_background_music()
         self.audio.play_background_music()
     
@@ -143,17 +148,21 @@ class SnakeGame:
         elif self.state == STATE_PLAYING:
             # Direction controls only during gameplay
             if key == KEY_UP:
-                self.snake.change_direction(DIRECTION_UP)
+                self.input_buffer.append(DIRECTION_UP)
                 self.audio.play_move_sound()
             elif key == KEY_DOWN:
-                self.snake.change_direction(DIRECTION_DOWN)
+                self.input_buffer.append(DIRECTION_DOWN)
                 self.audio.play_move_sound()
             elif key == KEY_LEFT:
-                self.snake.change_direction(DIRECTION_LEFT)
+                self.input_buffer.append(DIRECTION_LEFT)
                 self.audio.play_move_sound()
             elif key == KEY_RIGHT:
-                self.snake.change_direction(DIRECTION_RIGHT)
+                self.input_buffer.append(DIRECTION_RIGHT)
                 self.audio.play_move_sound()
+            
+            # Keep only the last 2 direction inputs
+            if len(self.input_buffer) > 2:
+                self.input_buffer = self.input_buffer[-2:]
         
         # Global controls (work in all states except menu for some)
         if key == KEY_PAUSE and self.state == STATE_PLAYING:
@@ -162,6 +171,22 @@ class SnakeGame:
             self.return_to_menu()
         elif key == KEY_QUIT and self.state != STATE_MENU:
             self.return_to_menu()
+    
+    def process_input_buffer(self) -> None:
+        """
+        Process the input buffer to handle queued direction changes.
+        This allows players to press multiple direction keys quickly.
+        """
+        if not self.input_buffer or self.state != STATE_PLAYING:
+            return
+        
+        # Process all buffered inputs in order
+        for direction in self.input_buffer:
+            if self.snake:
+                self.snake.change_direction(direction)
+        
+        # Clear buffer after processing
+        self.input_buffer = []
     
     def toggle_pause(self) -> None:
         """Toggle between paused and playing states."""
@@ -176,6 +201,9 @@ class SnakeGame:
         """Update game state."""
         if self.state != STATE_PLAYING:
             return
+        
+        # Process any buffered input before moving
+        self.process_input_buffer()
         
         # Update move counter
         self.move_counter += 1
