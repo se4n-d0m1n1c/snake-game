@@ -222,7 +222,8 @@ class UI:
             
         elif menu_state == "difficulty":
             # Calculate vertical center for difficulty selection content
-            content_start_y = SCREEN_HEIGHT // 2 - 100
+            # Perfectly center the 3 options around screen center
+            content_start_y = SCREEN_HEIGHT // 2 - 160
             
             # Draw difficulty selection title
             self.draw_text("SELECT DIFFICULTY", "heading", UI_TEXT_COLOR,
