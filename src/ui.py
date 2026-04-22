@@ -74,27 +74,27 @@ class UI:
             difficulty: Current difficulty level.
         """
         # Draw semi-transparent background
-        score_bg = pygame.Surface((SCREEN_WIDTH, 60), pygame.SRCALPHA)
+        score_bg = pygame.Surface((SCREEN_WIDTH, UI_HEIGHT), pygame.SRCALPHA)
         score_bg.fill(UI_BACKGROUND)
         self.screen.blit(score_bg, (0, 0))
         
         # Draw scores
-        self.draw_text(f"Score: {score}", "normal", UI_TEXT_COLOR, 20, 15)
-        self.draw_text(f"High Score: {high_score}", "normal", UI_ACCENT_COLOR, 20, 45)
+        self.draw_text(f"Score: {score}", "normal", UI_TEXT_COLOR, 20, 20)
+        self.draw_text(f"High Score: {high_score}", "normal", UI_ACCENT_COLOR, 20, 50)
         
-        # Draw difficulty - positioned from right edge
+        # Draw difficulty - positioned from right edge (shows selected difficulty)
         difficulty_text = f"Difficulty: {difficulty.capitalize()}"
         difficulty_font = self.fonts.get("normal", self.fonts["normal"])
         difficulty_width = difficulty_font.size(difficulty_text)[0]
         self.draw_text(difficulty_text, "normal", UI_TEXT_COLOR, 
-                      SCREEN_WIDTH - difficulty_width - 20, 15)
+                      SCREEN_WIDTH - difficulty_width - 20, 20)
         
         # Draw controls hint - positioned from right edge
-        controls_text = "P: Pause | R: Restart | ESC: Quit"
+        controls_text = "P: Pause | R: Menu | ESC: Quit"
         controls_font = self.fonts.get("small", self.fonts["normal"])
         controls_width = controls_font.size(controls_text)[0]
         self.draw_text(controls_text, "small", UI_TEXT_COLOR,
-                      SCREEN_WIDTH - controls_width - 20, 45)
+                      SCREEN_WIDTH - controls_width - 20, 50)
     
     def draw_pause_screen(self) -> None:
         """Draw the pause screen overlay."""
@@ -108,8 +108,10 @@ class UI:
                       SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50, center=True)
         self.draw_text("Press P to resume", "normal", UI_TEXT_COLOR,
                       SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 20, center=True)
-        self.draw_text("Press ESC to quit", "small", UI_TEXT_COLOR,
+        self.draw_text("Press R to return to menu", "small", UI_TEXT_COLOR,
                       SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 60, center=True)
+        self.draw_text("Press ESC to quit", "small", UI_TEXT_COLOR,
+                      SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 100, center=True)
     
     def draw_game_over(self, score: int, high_score: int) -> None:
         """
@@ -139,8 +141,8 @@ class UI:
             self.draw_text(f"High Score: {high_score}", "normal", UI_TEXT_COLOR,
                           SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 20, center=True)
         
-        # Draw restart instructions
-        self.draw_text("Press R to restart", "normal", UI_TEXT_COLOR,
+        # Draw return to menu instructions
+        self.draw_text("Press R to return to menu", "normal", UI_TEXT_COLOR,
                       SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 80, center=True)
         self.draw_text("Press ESC to quit", "small", UI_TEXT_COLOR,
                       SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 120, center=True)
@@ -184,3 +186,51 @@ class UI:
             center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 100)
         )
         self.screen.blit(notification, notification_rect)
+    
+    def draw_menu(self, selected_difficulty: str, high_score: int) -> None:
+        """
+        Draw the main menu screen.
+        
+        Args:
+            selected_difficulty: Currently selected difficulty.
+            high_score: Current high score.
+        """
+        # Draw background
+        self.screen.fill(BACKGROUND_COLOR)
+        
+        # Draw title
+        self.draw_text("SNAKE GAME", "title", UI_ACCENT_COLOR,
+                      SCREEN_WIDTH // 2, 100, center=True)
+        
+        # Draw high score
+        self.draw_text(f"High Score: {high_score}", "heading", UI_TEXT_COLOR,
+                      SCREEN_WIDTH // 2, 180, center=True)
+        
+        # Draw difficulty selection title
+        self.draw_text("SELECT DIFFICULTY", "heading", UI_TEXT_COLOR,
+                      SCREEN_WIDTH // 2, 260, center=True)
+        
+        # Draw difficulty options
+        difficulties = [
+            ("EASY", "1", "easy"),
+            ("MEDIUM", "2", "medium"),
+            ("HARD", "3", "hard")
+        ]
+        
+        y_offset = 320
+        option_spacing = 80
+        
+        for name, key, difficulty in difficulties:
+            # Highlight selected difficulty
+            color = UI_ACCENT_COLOR if difficulty == selected_difficulty else UI_TEXT_COLOR
+            
+            # Draw option
+            option_text = f"{name} (Press {key})"
+            self.draw_text(option_text, "normal", color,
+                          SCREEN_WIDTH // 2, y_offset, center=True)
+            
+            y_offset += option_spacing
+        
+        # Draw instructions
+        self.draw_text("Press ESC to quit", "small", UI_TEXT_COLOR,
+                      SCREEN_WIDTH // 2, SCREEN_HEIGHT - 80, center=True)
