@@ -37,6 +37,7 @@ class SnakeGame:
         
         # Game state
         self.state = STATE_MENU  # Start in menu state
+        self.menu_state = "main"  # "main" or "difficulty"
         self.difficulty = "medium"  # Default difficulty
         self.speed = DIFFICULTY_SPEEDS[self.difficulty]
         self.move_counter = 0
@@ -89,6 +90,7 @@ class SnakeGame:
     def return_to_menu(self) -> None:
         """Return to main menu."""
         self.state = STATE_MENU
+        self.menu_state = "main"  # Reset to main menu
         self.snake = None
         self.food = None
         self.score = 0
@@ -112,21 +114,31 @@ class SnakeGame:
             key: PyGame key constant.
         """
         if self.state == STATE_MENU:
-            # Menu controls
-            if key == KEY_EASY:
-                self.difficulty = "easy"
-                self.speed = DIFFICULTY_SPEEDS["easy"]
-                self.start_game()
-            elif key == KEY_MEDIUM:
-                self.difficulty = "medium"
-                self.speed = DIFFICULTY_SPEEDS["medium"]
-                self.start_game()
-            elif key == KEY_HARD:
-                self.difficulty = "hard"
-                self.speed = DIFFICULTY_SPEEDS["hard"]
-                self.start_game()
-            elif key == KEY_QUIT:
-                self.quit_game()
+            if self.menu_state == "main":
+                # Main menu controls
+                if key == pygame.K_RETURN or key == pygame.K_SPACE:
+                    # Enter or Space to go to difficulty selection
+                    self.menu_state = "difficulty"
+                elif key == KEY_QUIT:
+                    self.quit_game()
+                    
+            elif self.menu_state == "difficulty":
+                # Difficulty selection controls
+                if key == KEY_EASY:
+                    self.difficulty = "easy"
+                    self.speed = DIFFICULTY_SPEEDS["easy"]
+                    self.start_game()
+                elif key == KEY_MEDIUM:
+                    self.difficulty = "medium"
+                    self.speed = DIFFICULTY_SPEEDS["medium"]
+                    self.start_game()
+                elif key == KEY_HARD:
+                    self.difficulty = "hard"
+                    self.speed = DIFFICULTY_SPEEDS["hard"]
+                    self.start_game()
+                elif key == KEY_QUIT:
+                    # ESC goes back to main menu
+                    self.menu_state = "main"
                 
         elif self.state == STATE_PLAYING:
             # Direction controls only during gameplay
@@ -206,7 +218,7 @@ class SnakeGame:
         
         if self.state == STATE_MENU:
             # Draw menu screen
-            self.ui.draw_menu(self.difficulty, self.high_score)
+            self.ui.draw_menu(self.difficulty, self.high_score, self.menu_state)
         else:
             # Draw game area background
             game_area_bg = pygame.Rect(0, GAME_AREA_TOP, SCREEN_WIDTH, GAME_AREA_HEIGHT)

@@ -187,50 +187,72 @@ class UI:
         )
         self.screen.blit(notification, notification_rect)
     
-    def draw_menu(self, selected_difficulty: str, high_score: int) -> None:
+    def draw_menu(self, selected_difficulty: str, high_score: int, menu_state: str = "main") -> None:
         """
         Draw the main menu screen.
         
         Args:
             selected_difficulty: Currently selected difficulty.
             high_score: Current high score.
+            menu_state: "main" for play button, "difficulty" for difficulty selection
         """
         # Draw background
         self.screen.fill(BACKGROUND_COLOR)
         
-        # Draw title
+        # Draw animated title
+        title_y = self._get_title_y_position()
         self.draw_text("SNAKE GAME", "title", UI_ACCENT_COLOR,
-                      SCREEN_WIDTH // 2, 100, center=True)
+                      SCREEN_WIDTH // 2, title_y, center=True)
         
         # Draw high score
         self.draw_text(f"High Score: {high_score}", "heading", UI_TEXT_COLOR,
-                      SCREEN_WIDTH // 2, 180, center=True)
+                      SCREEN_WIDTH // 2, title_y + 100, center=True)
         
-        # Draw difficulty selection title
-        self.draw_text("SELECT DIFFICULTY", "heading", UI_TEXT_COLOR,
-                      SCREEN_WIDTH // 2, 260, center=True)
-        
-        # Draw difficulty options
-        difficulties = [
-            ("EASY", "1", "easy"),
-            ("MEDIUM", "2", "medium"),
-            ("HARD", "3", "hard")
-        ]
-        
-        y_offset = 320
-        option_spacing = 80
-        
-        for name, key, difficulty in difficulties:
-            # Highlight selected difficulty
-            color = UI_ACCENT_COLOR if difficulty == selected_difficulty else UI_TEXT_COLOR
+        if menu_state == "main":
+            # Draw play button
+            play_y = title_y + 200
+            self.draw_text("PRESS ENTER TO PLAY", "heading", UI_ACCENT_COLOR,
+                          SCREEN_WIDTH // 2, play_y, center=True)
             
-            # Draw option
-            option_text = f"{name} (Press {key})"
-            self.draw_text(option_text, "normal", color,
-                          SCREEN_WIDTH // 2, y_offset, center=True)
+            # Draw instructions
+            self.draw_text("Press ESC to quit", "small", UI_TEXT_COLOR,
+                          SCREEN_WIDTH // 2, SCREEN_HEIGHT - 80, center=True)
             
-            y_offset += option_spacing
-        
-        # Draw instructions
-        self.draw_text("Press ESC to quit", "small", UI_TEXT_COLOR,
-                      SCREEN_WIDTH // 2, SCREEN_HEIGHT - 80, center=True)
+        elif menu_state == "difficulty":
+            # Draw difficulty selection title
+            self.draw_text("SELECT DIFFICULTY", "heading", UI_TEXT_COLOR,
+                          SCREEN_WIDTH // 2, title_y + 180, center=True)
+            
+            # Draw difficulty options
+            difficulties = [
+                ("EASY", "1", "easy"),
+                ("MEDIUM", "2", "medium"),
+                ("HARD", "3", "hard")
+            ]
+            
+            y_offset = title_y + 260
+            option_spacing = 80
+            
+            for name, key, difficulty in difficulties:
+                # Highlight selected difficulty
+                color = UI_ACCENT_COLOR if difficulty == selected_difficulty else UI_TEXT_COLOR
+                
+                # Draw option
+                option_text = f"{name} (Press {key})"
+                self.draw_text(option_text, "normal", color,
+                              SCREEN_WIDTH // 2, y_offset, center=True)
+                
+                y_offset += option_spacing
+            
+            # Draw instructions
+            self.draw_text("Press ESC to go back", "small", UI_TEXT_COLOR,
+                          SCREEN_WIDTH // 2, SCREEN_HEIGHT - 80, center=True)
+    
+    def _get_title_y_position(self) -> int:
+        """Calculate animated title Y position with bobbing effect."""
+        import time
+        import math
+        # Smooth bobbing animation: sin wave with 2 second period, 10 pixel amplitude
+        current_time = time.time()
+        bob_offset = int(10 * math.sin(current_time * 3.14))  # Smooth sin wave
+        return 100 + bob_offset  # Center at 100, bob up and down
