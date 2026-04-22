@@ -1,6 +1,6 @@
 # Snake Game
 
-A classic Snake game implementation using PyGame with professional code structure, modular design, and maintainable architecture.
+A classic Snake game implementation using PyGame.
 
 ## Features
 
@@ -11,7 +11,7 @@ A classic Snake game implementation using PyGame with professional code structur
 - **Sound Effects**: Immersive audio feedback for game events
 - **Pause/Resume**: Game can be paused and resumed
 - **Game Over Screen**: Clean game over screen with restart option
-- **Configurable Settings**: Easy-to-modify game parameters
+- **Two-Step Menu**: Main menu with play button → Difficulty selection before gameplay
 
 ## Project Structure
 
@@ -32,6 +32,7 @@ snake-game/
 ├── tests/
 │   ├── test_snake.py
 │   └── test_food.py
+├── run.py            # Game entry point
 ├── requirements.txt     # Python dependencies
 ├── setup.py            # Package installation
 ├── .gitignore          # Git ignore rules
@@ -54,35 +55,30 @@ snake-game/
 
 3. Run the game:
    ```bash
-   python -m src.game
+   python run.py
    ```
 
 ## Controls
 
+### Main Menu
+- **ENTER/SPACE**: Proceed to difficulty selection
+- **ESC**: Quit game
+
+### Difficulty Selection
+- **1**: Select Easy difficulty and start game
+- **2**: Select Medium difficulty and start game  
+- **3**: Select Hard difficulty and start game
+- **ESC**: Go back to main menu
+
+### Gameplay
 - **Arrow Keys**: Move the snake (Up, Down, Left, Right)
 - **P**: Pause/Resume game
-- **R**: Restart game (when game over)
-- **ESC**: Quit game
-- **1, 2, 3**: Change difficulty (Easy, Medium, Hard)
+- **R**: Return to main menu
+- **ESC**: Return to main menu
 
 ## Development
 
-### Running Tests
-```bash
-python -m pytest tests/
-```
-
-### Code Style
-This project follows PEP 8 style guidelines. Use black for formatting:
-```bash
-black src/ tests/
-```
-
-### Adding New Features
-1. Create a new module in `src/` for the feature
-2. Add tests in `tests/`
-3. Update configuration in `src/config.py` if needed
-4. Document the feature in README.md
+This project uses a modular structure with separate files for game logic, UI, audio, and configuration. The code is organized to be easy to understand and modify.
 
 ## Dependencies
 
@@ -96,8 +92,4 @@ MIT License - see LICENSE file for details.
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Submit a pull request
+Contributions are welcome! Feel free to fork the repository and submit pull requests.
